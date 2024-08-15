@@ -1,0 +1,20 @@
+{% set name = "drag_models" %}
+{% set version = "1.0" %}
+
+package:
+  name: "{{ name|lower }}"
+  version: "{{ version }}"
+
+source:
+  # Relative path to the parent directory.
+  path: .
+
+build:
+  number: 1
+
+requirements:
+  build:
+    - python
+  run:
+    - numpy
+    - plotly

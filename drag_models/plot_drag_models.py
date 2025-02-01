@@ -2,10 +2,10 @@ import numpy as np
 import plotly.graph_objects as go
 import argparse
 
-def plot_model(fig, mname, model, Mach, Re, T_p, T_inf, gam, Kn):
+def plot_model(fig, mname, model, Mach, Re, T_p, T_inf, gam, Kn, R):
     
     name=f"{mname}: Mach={Mach}"
-    Cd = model(Mach, Re, T_p, T_inf, gam, Kn)
+    Cd = model(Mach, Re, T_p, T_inf, gam, Kn, R)
     
     fig.add_trace(go.Scatter(x=Re,
                            y=Cd,
@@ -67,19 +67,11 @@ def setlayout(fig):
 def list_of_paths(arg):
     return arg.split(',')
 
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser(
-        description="Plot drag models. Arguments are comma-separated lists."
-        )
+def plot_drag_models(argsdict):
     
-    parser.add_argument("--plot", type=list_of_paths, default=None)
-    parser.add_argument("--mach", type=list_of_paths, default=None)
-    
-    args=parser.parse_args()
-    
-    if args.plot is not None:
+    if "plot" in argsdict and argsdict["plot"] is not None:
         
-        plotlist = [x.lower() for x in args.plot]
+        plotlist = [x.lower() for x in argsdict["plot"]]
         
         print(f"Requested list of plots: {plotlist}")
             
@@ -88,17 +80,18 @@ if __name__ == "__main__":
         T_inf = 1000
         gam = 1.4
         Kn = 0.00001
+        R = 287.051
         machlist = [0.24, 0.39, 0.79, 1.18, 1.57, 2.36, 3.15, 4.72]
         
-        if args.mach is not None:
+        if "mach" in argsdict and argsdict["mach"] is not None:
             machlist = [float(x) for x in args.mach]
-        
+    
         if "henderson" in plotlist:
             from sphere.henderson import Henderson_Cd
             figH=go.Figure()
             
             for m in machlist:
-                plot_model(figH, "Henderson", Henderson_Cd, m, Re, T_p, T_inf, gam, Kn)
+                plot_model(figH, "Henderson", Henderson_Cd, m, Re, T_p, T_inf, gam, Kn, R)
             
             setlayout(figH)  
             figH.show()
@@ -108,7 +101,7 @@ if __name__ == "__main__":
             figL=go.Figure()
             
             for m in machlist:
-                plot_model(figL, "Loth 2008", Loth_2008_Cd, m, Re, T_p, T_inf, gam, Kn)
+                plot_model(figL, "Loth 2008", Loth_2008_Cd, m, Re, T_p, T_inf, gam, Kn, R)
             
             setlayout(figL)  
             figL.show()
@@ -118,7 +111,7 @@ if __name__ == "__main__":
             figLL=go.Figure()
             
             for m in machlist:
-                plot_model(figLL, "Loth 2021", Loth_2021_Cd, m, Re, T_p, T_inf, gam, Kn)
+                plot_model(figLL, "Loth 2021", Loth_2021_Cd, m, Re, T_p, T_inf, gam, Kn, R)
             
             setlayout(figLL)  
             figLL.show()
@@ -139,3 +132,28 @@ if __name__ == "__main__":
             figLT.update_yaxes(title="$Function Value$",
                               ) 
             figLT.show()
+            
+        if "singh2020" in plotlist:
+            from sphere.singh2020 import Singh_2020_Cd
+            figLL=go.Figure()
+            
+            for m in machlist:
+                plot_model(figLL, "Singh 2020", Singh_2020_Cd, m, Re, T_p, T_inf, gam, Kn, R)
+            
+            setlayout(figLL)  
+            figLL.show()
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(
+        description="Plot drag models. Arguments are comma-separated lists."
+        )
+    
+    parser.add_argument("--plot", type=list_of_paths, default=None)
+    parser.add_argument("--mach", type=list_of_paths, default=None)
+    
+    args=parser.parse_args()
+    argsdict = vars(args)
+    
+    plot_drag_models(argsdict)
+        
+        

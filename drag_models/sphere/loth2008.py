@@ -40,7 +40,7 @@ def CfR08(M,Re,T_p,T_inf,gam,Kn):
     CdfmRe = Cdfm / (1+(Cdfm/1.63-1)*np.sqrt(Re/45))
     return CdfmRe
     
-def Loth_2008_Cd(M,Re,T_p,T_inf,gam,Kn):
+def Loth_2008_Cd(M,Re,T_p,T_inf,gam,Kn,R):
     
     if not isinstance(Re, np.ndarray):
         Re = np.asarray([Re])

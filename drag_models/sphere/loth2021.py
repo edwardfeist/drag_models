@@ -49,7 +49,7 @@ def CfR21(M,Re,T_p,T_inf,gam,Kn):
    CdfmRe = Cdfm / (1.0+(Cdfm/J21(M) - 1.0)*np.sqrt(Re/45.0))
    return CdfmRe
 
-def Loth_2021_Cd(M,Re,T_p,T_inf,gam,Kn): 
+def Loth_2021_Cd(M,Re,T_p,T_inf,gam,Kn,R): 
     if not isinstance(Re, np.ndarray):
         Re = np.asarray([Re])
     

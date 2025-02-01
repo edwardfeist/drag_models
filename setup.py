@@ -5,9 +5,9 @@ from setuptools import setup, find_packages
 
 setup(
    description='Drag models',
-   package_dir={"": "drag_models"},
+   package_dir={"": "."},
    packages=find_packages(
-       where="./drag_models",
+       where=".",
    ),
-   scripts=['drag_models/plot_drag_models.py'],
+   #scripts=['drag_models/plot_drag_models.py'],
 )

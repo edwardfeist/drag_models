@@ -29,7 +29,7 @@ def high_mach(M,Re,T_rat,gam):
     
     return Cd
     
-def Henderson_Cd(M,Re,T_p,T_inf,gam,Kn):
+def Henderson_Cd(M,Re,T_p,T_inf,gam,Kn,R):
 
     if (M>1.75):
        Cd = high_mach(M,Re,T_p/T_inf,gam)
